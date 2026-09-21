@@ -3,215 +3,90 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Agendamento | Sala de Informática</title>
+    <title>Agendamentos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Economica:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <style>
       :root {
-        
-        
-        --turquesa: #c1121f;
+        --rosa: #ff2b68;
+        --verde-petroleo: #006e72;
+        --laranja: #ff9814;
       }
 
       body {
         min-height: 100vh;
-        margin: 0;
-        background-color: #ffffff; /* Fundo padrão em branco */
-        color: #000;
-        overflow-x: hidden;
-        position: relative;
+        background: #fff;
       }
 
-      /* Container do fundo animado em círculos */
-      .fundo-animado {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: -1;
-        overflow: hidden;
-      }
-
-      /* Círculos que nascem no canto SUPERIOR DIREITO */
-      .circulo-cor {
-        position: absolute;
-        top: -20vh;
-        right: -20vh;
-        width: 300vh;
-        height: 300vh;
-        border-radius: 50%;
-        transform-origin: top right;
-        transform: scale(0);
-        animation: expansao-circular 18s ease-in-out infinite alternate;
-      }
-
-      /* Sequência harmônica de expansão circular */
-      .circulo-0 { background-color: #ffffff; animation-delay: 0s; }
-      .circulo-1 { background-color: var(--azul-marinho); animation-delay: 0.9s; }
-      .circulo-2 { background-color: var(--azul); animation-delay: 1.8s; }
-      .circulo-3 { background-color: var(--azul-ciano); animation-delay: 2.7s; }
-      .circulo-4 { background-color: var(--ciano); animation-delay: 3.6s; }
-      .circulo-5 { background-color: var(--ciano-claro); animation-delay: 4.5s; }
-      .circulo-6 { background-color: var(--azul-claro); animation-delay: 5.4s; }
-      .circulo-7 { background-color: var(--azul-gelo); animation-delay: 6.3s; }
-      .circulo-8 { background-color: var(--gelo); animation-delay: 7.2s; }
-      .circulo-9 { background-color: #ffffff; animation-delay: 8.1s; } /* Retorna ao branco no final do ciclo */
-
-      @keyframes expansao-circular {
-        0% {
-          transform: scale(0);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      .hero {
+      .pagina-opcoes {
         min-height: 100vh;
-        padding: clamp(3.8rem, 9vh, 7rem) 1.5rem clamp(4rem, 10vh, 6rem);
-        position: relative;
-        z-index: 1;
+        padding: clamp(1.6rem, 4vh, 3rem) 1.5rem;
       }
 
-      .titulo-sala,
-      .titulo-informatica,
-      .btn-entrar {
+      .menu-agendamento {
+        width: min(100%, 494px);
+      }
+
+      .opcao-agendamento {
+        width: 100%;
+        min-height: 163px;
+        padding: 1rem 2rem;
+        border: 0;
+        border-radius: 999px;
+        color: #fff;
         font-family: "Anton", Impact, sans-serif;
-        text-transform: uppercase;
-        letter-spacing: .025em;
-      }
-
-      .titulo-principal {
-        font-family: "Economica", "Arial Narrow", sans-serif;
-        text-transform: uppercase;
-        font-weight: 700;
-        letter-spacing: .035em;
-        font-size: clamp(4rem, 8vw, 6.3rem);
-        line-height: .92;
-        margin: 0;
-      }
-
-      /* Estado inicial: os elementos ficam ocultos até o JavaScript iniciar. */
-      .animar-entrada {
-        opacity: 0;
-        transform: translateY(32px) scale(.98);
-      }
-
-      .pagina-carregada .animar-entrada {
-        animation: surgir .7s cubic-bezier(.22, 1, .36, 1) both;
-      }
-
-      .pagina-carregada .titulo-principal { animation-delay: .08s; }
-      .pagina-carregada .titulo-sala { animation-delay: .24s; }
-      .pagina-carregada .titulo-informatica { animation-delay: .38s; }
-      .pagina-carregada .btn-entrar { animation-delay: .56s; }
-
-      @keyframes surgir {
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-
-      .botao-pulando {
-        animation: pular 1.15s ease-in-out infinite;
-      }
-
-      @keyframes pular {
-        0%, 100% { transform: translateY(0); }
-        45% { transform: translateY(-14px); }
-        65% { transform: translateY(-6px); }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .circulo-cor {
-          animation: none;
-        }
-
-        .animar-entrada,
-        .pagina-carregada .animar-entrada,
-        .botao-pulando {
-          animation: none;
-          opacity: 1;
-          transform: none;
-        }
-      }
-
-      .titulo-sala {
-        font-size: clamp(2.25rem, 4vw, 3.35rem);
-        font-weight: 400;
-        line-height: 1;
-        margin: 1.7rem 0 0;
-      }
-
-      .titulo-informatica {
-        font-size: clamp(3.4rem, 7vw, 5.8rem);
+        font-size: clamp(2rem, 4.4vw, 3rem);
         font-weight: 400;
         line-height: .95;
-        margin: 2.1rem 0 0;
+        letter-spacing: .025em;
+        text-transform: uppercase;
+        transition: transform .2s ease, filter .2s ease;
       }
 
-      .btn-entrar {
-        --bs-btn-color: #fff;
-        --bs-btn-bg: var(--turquesa);
-        --bs-btn-border-color: var(--turquesa);
-        --bs-btn-hover-color: #fff;
-        --bs-btn-hover-bg: #aa2828;
-        --bs-btn-hover-border-color: #aa2828;
-        width: min(100%, 492px);
-        min-height: 164px;
-        margin-top: clamp(5rem, 13vh, 8rem);
-        border-radius: 999px;
-        font-size: clamp(3.25rem, 6vw, 5rem);
-        line-height: 1;
+      .opcao-agendamento:hover,
+      .opcao-agendamento:focus-visible {
+        color: #fff;
+        transform: translateY(-5px) scale(1.015);
+        filter: brightness(.94);
       }
+
+      .opcao-agendamento:focus-visible {
+        outline: 4px solid #000;
+        outline-offset: 4px;
+      }
+
+      .opcao-fixo { background: var(--rosa); }
+      .opcao-diario { background: var(--verde-petroleo); }
+      .opcao-visualizar { background: var(--laranja); }
 
       @media (max-width: 575.98px) {
-        .btn-entrar { min-height: 120px; }
+        .opcao-agendamento {
+          min-height: 128px;
+          font-size: clamp(1.8rem, 9vw, 2.35rem);
+        }
       }
     </style>
   </head>
   <body>
-
-    <!-- Fundo animado com origem no canto superior direito -->
-    <div class="fundo-animado">
-      <div class="circulo-cor circulo-0"></div>
-      <div class="circulo-cor circulo-1"></div>
-      <div class="circulo-cor circulo-2"></div>
-      <div class="circulo-cor circulo-3"></div>
-      <div class="circulo-cor circulo-4"></div>
-      <div class="circulo-cor circulo-5"></div>
-      <div class="circulo-cor circulo-6"></div>
-      <div class="circulo-cor circulo-7"></div>
-      <div class="circulo-cor circulo-8"></div>
-      <div class="circulo-cor circulo-9"></div>
-    </div>
-
-    <main class="container-fluid hero d-flex flex-column align-items-center text-center">
-      <h1 class="titulo-principal animar-entrada">Agendamento</h1>
-      <p class="titulo-sala animar-entrada">Sala</p>
-      <p class="titulo-informatica animar-entrada">Informática</p>
-
-      <a class="btn btn-entrar animar-entrada d-inline-flex align-items-center justify-content-center" href="index.html" aria-label="Entrar no agendamento">
-        Entrar
-      </a>
+    <main class="container-fluid pagina-opcoes d-flex justify-content-center align-items-center">
+      <nav class="menu-agendamento d-grid gap-3" aria-label="Opções de agendamento">
+        <a class="btn opcao-agendamento opcao-fixo d-flex align-items-center justify-content-center" href="AgendamentoFixo.html">
+          <span>Agendamento<br>Fixo</span>
+        </a>
+        <br/><br/>
+        <a class="btn opcao-agendamento opcao-diario d-flex align-items-center justify-content-center" href="AgendamentoDiario.html">
+          <span>Agendamento<br>Diário</span>
+        </a>
+           <br/><br/>
+        <a class="btn opcao-agendamento opcao-visualizar d-flex align-items-center justify-content-center" href="#visualizar-agendamentos">
+          <span>Visualizar<br>Agendamentos</span>
+        </a>
+      </nav>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        document.body.classList.add("pagina-carregada");
-
-        const botaoEntrar = document.querySelector(".btn-entrar");
-        botaoEntrar.addEventListener("animationend", (evento) => {
-          if (evento.animationName === "surgir") {
-            botaoEntrar.classList.add("botao-pulando");
-          }
-        }, { once: true });
-      });
-    </script>
   </body>
-</html> 
+</html>
+
