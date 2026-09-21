@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agendamentos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --rosa: #ff2b68;
+        --verde-petroleo: #006e72;
+        --laranja: #ff9814;
+      }
+
+      body {
+        min-height: 100vh;
+        background: #fff;
+      }
+
+      .pagina-opcoes {
+        min-height: 100vh;
+        padding: clamp(1.6rem, 4vh, 3rem) 1.5rem;
+      }
+
+      .menu-agendamento {
+        width: min(100%, 494px);
+      }
+
+      .opcao-agendamento {
+        width: 100%;
+        min-height: 163px;
+        padding: 1rem 2rem;
+        border: 0;
+        border-radius: 999px;
+        color: #fff;
+        font-family: "Anton", Impact, sans-serif;
+        font-size: clamp(2rem, 4.4vw, 3rem);
+        font-weight: 400;
+        line-height: .95;
+        letter-spacing: .025em;
+        text-transform: uppercase;
+        transition: transform .2s ease, filter .2s ease;
+      }
+
+      .opcao-agendamento:hover,
+      .opcao-agendamento:focus-visible {
+        color: #fff;
+        transform: translateY(-5px) scale(1.015);
+        filter: brightness(.94);
+      }
+
+      .opcao-agendamento:focus-visible {
+        outline: 4px solid #000;
+        outline-offset: 4px;
+      }
+
+      .opcao-fixo { background: var(--rosa); }
+      .opcao-diario { background: var(--verde-petroleo); }
+      .opcao-visualizar { background: var(--laranja); }
+
+      @media (max-width: 575.98px) {
+        .opcao-agendamento {
+          min-height: 128px;
+          font-size: clamp(1.8rem, 9vw, 2.35rem);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container-fluid pagina-opcoes d-flex justify-content-center align-items-center">
+      <nav class="menu-agendamento d-grid gap-3" aria-label="Opções de agendamento">
+        <a class="btn opcao-agendamento opcao-fixo d-flex align-items-center justify-content-center" href="AgendamentoFixo.html">
+          <span>Agendamento<br>Fixo</span>
+        </a>
+        <br/><br/>
+        <a class="btn opcao-agendamento opcao-diario d-flex align-items-center justify-content-center" href="AgendamentoDiario.html">
+          <span>Agendamento<br>Diário</span>
+        </a>
+           <br/><br/>
+        <a class="btn opcao-agendamento opcao-visualizar d-flex align-items-center justify-content-center" href="#visualizar-agendamentos">
+          <span>Visualizar<br>Agendamentos</span>
+        </a>
+      </nav>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  </body>
+</html>
+

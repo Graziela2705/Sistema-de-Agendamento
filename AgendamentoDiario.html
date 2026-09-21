@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agendamento Diário | Sala de Informática</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Flatpickr Datepicker CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <style>
+      :root {
+        --verde-fundo: #e8fbf4;
+        --verde-escuro: #006666;
+        --verde-escuro-hover: #004d4d;
+        --cinza-borda: #9e9e9e;
+        --cinza-texto: #333333;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background-color: var(--verde-fundo);
+        font-family: 'Inter', sans-serif;
+        color: #000;
+        overflow-x: hidden;
+      }
+
+      /* Container do Formulario */
+      .container-agendamento {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+      }
+
+      /* Titulo Principal */
+      .titulo-agendamento {
+        font-family: "Anton", Impact, sans-serif;
+        color: var(--verde-escuro);
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        text-align: center;
+        margin-bottom: 3.5rem;
+      }
+
+      .campo-label {
+        font-weight: 800;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        color: #000;
+        display: block;
+      }
+
+      /* Inputs Customizados */
+      .input-custom {
+        width: 100%;
+        background-color: #ffffff;
+        border: 2px solid var(--cinza-borda);
+        border-radius: 20px;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.95rem;
+        outline: none;
+        color: var(--cinza-texto);
+        box-sizing: border-box;
+      }
+
+      /* Campo de Data (Calendario) */
+      .input-data {
+        background-color: #ffffff;
+        cursor: pointer;
+      }
+
+      /* Custom Dropdown */
+      .select-custom-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .select-custom-header {
+        width: 100%;
+        background-color: #ffffff;
+        border: 2px solid var(--cinza-borda);
+        border-radius: 20px;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.95rem;
+        color: var(--cinza-texto);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+        transition: border-radius 0.2s ease;
+      }
+
+      .select-custom-wrapper.ativo .select-custom-header {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .seta-v {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #555;
+        transition: transform 0.2s ease;
+      }
+
+      .select-custom-wrapper.ativo .seta-v {
+        transform: rotate(180deg);
+      }
+
+      .select-custom-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        border: 2px solid var(--cinza-borda);
+        border-top: none;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        display: none;
+        z-index: 10;
+        padding: 0.4rem 0;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+      }
+
+      .select-custom-wrapper.ativo .select-custom-options {
+        display: block;
+      }
+
+      .select-option {
+        padding: 0.6rem 1.25rem;
+        cursor: pointer;
+        font-size: 0.95rem;
+        color: var(--cinza-texto);
+        transition: background-color 0.15s;
+      }
+
+      .select-option:hover {
+        background-color: #f0f0f0;
+      }
+
+      /* Radio Buttons de Aulas */
+      .radio-aulas {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .radio-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .radio-item input[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 28px;
+        height: 28px;
+        border: 2px solid var(--cinza-borda);
+        border-radius: 50%;
+        outline: none;
+        background-color: #fff;
+        cursor: pointer;
+        position: relative;
+        transition: border-color 0.2s;
+      }
+
+      .radio-item input[type="radio"]:checked {
+        border-color: var(--verde-escuro);
+      }
+
+      .radio-item input[type="radio"]:checked::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: var(--verde-escuro);
+      }
+
+      /* Textarea de Observacao */
+      textarea.input-custom {
+        resize: none;
+        height: 110px;
+        border-radius: 20px;
+      }
+
+      /* Botao Agendar */
+      .btn-agendar {
+        font-family: "Anton", Impact, sans-serif;
+        background-color: var(--verde-escuro);
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        padding: 0.9rem 4.5rem;
+        font-size: 1.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 3.5rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        box-shadow: 0 4px 15px rgba(0, 102, 102, 0.25);
+      }
+
+      .btn-agendar:hover {
+        background-color: var(--verde-escuro-hover);
+        transform: translateY(-2px);
+      }
+
+      /* Customizacao do Tema do Flatpickr para combinar com o layout */
+      .flatpickr-calendar {
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        border: 1px solid var(--cinza-borda);
+      }
+
+      .flatpickr-day.selected {
+        background: var(--verde-escuro) !important;
+        border-color: var(--verde-escuro) !important;
+      }
+    </style>
+  </head>
+  <body>
+
+    <main class="container-agendamento">
+      <h1 class="titulo-agendamento">AGENDAMENTO DIÁRIO</h1>
+
+      <form id="formAgendamentoDiario">
+        <div class="row g-4 align-items-start">
+          
+          <!-- Coluna Esquerda -->
+          <div class="col-12 col-md-6 d-flex flex-column gap-4">
+            
+            <!-- Nome do Professor -->
+            <div>
+              <label for="nomeProfessor" class="campo-label">Nome do Professor:</label>
+              <input type="text" id="nomeProfessor" class="input-custom" placeholder="">
+            </div>
+
+            <!-- Dias do Agendamento (Calendario) -->
+            <div>
+              <label for="diasAgendamento" class="campo-label">Dias do Agendamento:</label>
+              <input type="text" id="diasAgendamento" class="input-custom input-data" placeholder="Selecionar data..." readonly>
+            </div>
+
+            <!-- Plataforma -->
+            <div>
+              <label class="campo-label">Plataforma que vai Utilizar:</label>
+              <div class="select-custom-wrapper">
+                <div class="select-custom-header">
+                  <span class="select-text">Selecione a plataforma</span>
+                  <span class="seta-v">V</span>
+                </div>
+                <div class="select-custom-options">
+                  <div class="select-option" data-value="Leia SP">Leia SP</div>
+                  <div class="select-option" data-value="Matific">Matific</div>
+                  <div class="select-option" data-value="Khan Academy">Khan Academy</div>
+                  <div class="select-option" data-value="Outros">Outros</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sala -->
+            <div>
+              <label class="campo-label">Sala:</label>
+              <div class="select-custom-wrapper">
+                <div class="select-custom-header">
+                  <span class="select-text">Selecione a sala</span>
+                  <span class="seta-v">V</span>
+                </div>
+                <div class="select-custom-options">
+                  <div class="select-option" data-value="1º A">1º A</div>
+                  <div class="select-option" data-value="1º B">1º B</div>
+                  <div class="select-option" data-value="2º A">2º A</div>
+                  <div class="select-option" data-value="2º B">2º B</div>
+                  <div class="select-option" data-value="3º A">3º A</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Coluna Direita -->
+          <div class="col-12 col-md-6 d-flex flex-column gap-4">
+            
+            <!-- Selecao da Aula -->
+            <div>
+              <label class="campo-label mb-3">Qual aula vai deixar fixo seu agendamento:</label>
+              <div class="radio-aulas">
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="1º aula">
+                  <span>1º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="2º aula">
+                  <span>2º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="3º aula">
+                  <span>3º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="4º aula">
+                  <span>4º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="5º aula">
+                  <span>5º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="6º aula">
+                  <span>6º aula</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Observacao -->
+            <div>
+              <label for="observacao" class="campo-label">Observação:</label>
+              <textarea id="observacao" class="input-custom"></textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Botao Centralizado -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-agendar">AGENDAR</button>
+        </div>
+      </form>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!-- Flatpickr JS & Portuguese Locale -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Inicializacao do Calendario no campo de Data
+        flatpickr("#diasAgendamento", {
+          locale: "pt",
+          dateFormat: "d/m/Y",
+          minDate: "today",
+          disableMobile: true
+        });
+
+        // Logica para abrir/fechar os Dropdowns customizados
+        const wrappers = document.querySelectorAll(".select-custom-wrapper");
+
+        wrappers.forEach(wrapper => {
+          const header = wrapper.querySelector(".select-custom-header");
+          const options = wrapper.querySelectorAll(".select-option");
+          const textSpan = wrapper.querySelector(".select-text");
+
+          header.addEventListener("click", (e) => {
+            e.stopPropagation();
+            
+            // Fecha outros dropdowns se abertos
+            wrappers.forEach(w => {
+              if (w !== wrapper) w.classList.remove("ativo");
+            });
+
+            wrapper.classList.toggle("ativo");
+          });
+
+          options.forEach(option => {
+            option.addEventListener("click", (e) => {
+              e.stopPropagation();
+              textSpan.textContent = option.getAttribute("data-value");
+              wrapper.classList.remove("ativo");
+            });
+          });
+        });
+
+        // Fechar dropdowns se clicar fora
+        document.addEventListener("click", () => {
+          wrappers.forEach(w => w.classList.remove("ativo"));
+        });
+      });
+    </script>
+  </body>
+</html>

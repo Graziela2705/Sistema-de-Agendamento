@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agendamento Fixo | Sala de Informática</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --rosa-fundo: #fbebf1;
+        --rosa-principal: #ff2a6d;
+        --cinza-borda: #8a8a8a;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background-color: var(--rosa-fundo);
+        font-family: 'Inter', sans-serif;
+        color: #000;
+        overflow-x: hidden;
+      }
+
+      /* Título Principal */
+      .titulo-agendamento {
+        font-family: "Anton", Impact, sans-serif;
+        color: var(--rosa-principal);
+        font-size: clamp(2.2rem, 5vw, 3.8rem);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+
+      /* Container do Formulário */
+      .container-agendamento {
+        max-width: 950px;
+        margin: 0 auto;
+        padding: 2.5rem 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .campo-label {
+        font-weight: 700;
+        font-size: 0.92rem;
+        margin-bottom: 0.4rem;
+        color: #000;
+        display: block;
+      }
+
+      /* Inputs Padrão */
+      .input-custom {
+        width: 100%;
+        background-color: #ffffff;
+        border: 2px solid var(--cinza-borda);
+        border-radius: 16px;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        outline: none;
+        color: #333;
+        box-sizing: border-box;
+      }
+
+      /* Menu Suspenso Customizado (Select Dropdown) */
+      .select-custom-wrapper {
+        position: relative;
+        width: 100%;
+        margin-bottom: 1.5rem;
+      }
+
+      .select-custom-header {
+        width: 100%;
+        background-color: #ffffff;
+        border: 2px solid var(--cinza-borda);
+        border-radius: 16px;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.95rem;
+        color: #333;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+        transition: border-radius 0.2s ease;
+      }
+
+      .select-custom-wrapper.ativo .select-custom-header {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .seta-v {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #444;
+        transition: transform 0.2s ease;
+      }
+
+      .select-custom-wrapper.ativo .seta-v {
+        transform: rotate(180deg);
+      }
+
+      .select-custom-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        border: 2px solid var(--cinza-borda);
+        border-top: none;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        display: none;
+        z-index: 10;
+        padding: 0.4rem 0;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+      }
+
+      .select-custom-wrapper.ativo .select-custom-options {
+        display: block;
+      }
+
+      .select-option {
+        padding: 0.6rem 1.25rem;
+        cursor: pointer;
+        font-size: 0.95rem;
+        color: #333;
+        transition: background-color 0.15s;
+      }
+
+      .select-option:hover {
+        background-color: #f2f2f2;
+      }
+
+      /* Opções de Aula (Radio Customizado) */
+      .radio-aulas {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .radio-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      .radio-item input[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 26px;
+        height: 26px;
+        border: 2px solid var(--cinza-borda);
+        border-radius: 50%;
+        outline: none;
+        background-color: #fff;
+        cursor: pointer;
+        position: relative;
+        transition: border-color 0.2s, background-color 0.2s;
+      }
+
+      .radio-item input[type="radio"]:checked {
+        border-color: var(--rosa-principal);
+        background-color: #fff;
+      }
+
+      .radio-item input[type="radio"]:checked::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: var(--rosa-principal);
+      }
+
+      /* Textarea */
+      textarea.input-custom {
+        resize: none;
+        height: 120px;
+        border-radius: 16px;
+      }
+
+      /* Botão Agendar */
+      .btn-agendar {
+        font-family: "Anton", Impact, sans-serif;
+        background-color: var(--rosa-principal);
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        padding: 0.9rem 4rem;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-top: 2.5rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        box-shadow: 0 4px 15px rgba(255, 42, 109, 0.3);
+      }
+
+      .btn-agendar:hover {
+        background-color: #e01f5c;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+
+    <main class="container-agendamento">
+      <h1 class="titulo-agendamento">Agendamento Fixo</h1>
+
+      <form id="formAgendamento">
+        <div class="row g-4">
+          <!-- Coluna da Esquerda -->
+          <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+            
+            <!-- Campo Nome do Professor -->
+            <div class="mb-3">
+              <label for="nomeProfessor" class="campo-label">Nome do Professor:</label>
+              <input type="text" id="nomeProfessor" class="input-custom" placeholder="">
+            </div>
+
+            <!-- Select 1: Dias da Semana -->
+            <div class="mb-3">
+              <label class="campo-label">Dias da Semana do Agendamento Fixo:</label>
+              <div class="select-custom-wrapper">
+                <div class="select-custom-header">
+                  <span class="select-text">Selecione o dia</span>
+                  <span class="seta-v">V</span>
+                </div>
+                <div class="select-custom-options">
+                  <div class="select-option" data-value="Todas as Segunda">Todas as Segunda</div>
+                  <div class="select-option" data-value="todas as Terça">todas as Terça</div>
+                  <div class="select-option" data-value="todas as Quarta">todas as Quarta</div>
+                  <div class="select-option" data-value="todas as Quinta">todas as Quinta</div>
+                  <div class="select-option" data-value="todas as Sexta">todas as Sexta</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Select 2: Plataforma -->
+            <div class="mb-3">
+              <label class="campo-label">Plataforma que vai Utilizar:</label>
+              <div class="select-custom-wrapper">
+                <div class="select-custom-header">
+                  <span class="select-text">Selecione a plataforma</span>
+                  <span class="seta-v">V</span>
+                </div>
+                <div class="select-custom-options">
+                  <div class="select-option" data-value="Leia SP">Leia SP</div>
+                  <div class="select-option" data-value="Matific">Matific</div>
+                  <div class="select-option" data-value="Khan Academy">Khan Academy</div>
+                  <div class="select-option" data-value="Outros">Outros</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Select 3: Turma / Sala -->
+            <div class="mb-3">
+              <label class="campo-label">Turma que vai Utilizar:</label>
+              <div class="select-custom-wrapper">
+                <div class="select-custom-header">
+                  <span class="select-text">Selecione a turma</span>
+                  <span class="seta-v">V</span>
+                </div>
+                <div class="select-custom-options">
+                  <div class="select-option" data-value="1º A">1º A</div>
+                  <div class="select-option" data-value="1º B">1º B</div>
+                  <div class="select-option" data-value="2º A">2º A</div>
+                  <div class="select-option" data-value="2º B">2º B</div>
+                  <div class="select-option" data-value="3º A">3º A</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Coluna da Direita -->
+          <div class="col-12 col-md-6 d-flex flex-column justify-content-between">
+            
+            <!-- Qual aula vai deixar fixo -->
+            <div class="mb-4">
+              <label class="campo-label mb-3">Qual aula vai deixar fixo seu agendamento:</label>
+              <div class="radio-aulas">
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="1º aula">
+                  <span>1º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="2º aula">
+                  <span>2º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="3º aula">
+                  <span>3º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="4º aula">
+                  <span>4º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="5º aula">
+                  <span>5º aula</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="aulaFixa" value="6º aula">
+                  <span>6º aula</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Observação -->
+            <div class="mb-3">
+              <label for="observacao" class="campo-label">Observação:</label>
+              <textarea id="observacao" class="input-custom"></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Botão Centralizado -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-agendar">AGENDAR</button>
+        </div>
+      </form>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const wrappers = document.querySelectorAll(".select-custom-wrapper");
+
+        // Lógica dos menus suspensos abrir e fechar
+        wrappers.forEach(wrapper => {
+          const header = wrapper.querySelector(".select-custom-header");
+          const options = wrapper.querySelectorAll(".select-option");
+          const textSpan = wrapper.querySelector(".select-text");
+
+          // Abrir e fechar ao clicar no cabeçalho
+          header.addEventListener("click", (e) => {
+            e.stopPropagation();
+            
+            // Fecha os outros selects abertos
+            wrappers.forEach(w => {
+              if (w !== wrapper) w.classList.remove("ativo");
+            });
+
+            wrapper.classList.toggle("ativo");
+          });
+
+          // Selecionar uma opção
+          options.forEach(option => {
+            option.addEventListener("click", (e) => {
+              e.stopPropagation();
+              textSpan.textContent = option.getAttribute("data-value");
+              wrapper.classList.remove("ativo");
+            });
+          });
+        });
+
+        // Fechar qualquer select se clicar fora dele
+        document.addEventListener("click", () => {
+          wrappers.forEach(w => w.classList.remove("ativo"));
+        });
+      });
+    </script>
+  </body>
+</html>
+
